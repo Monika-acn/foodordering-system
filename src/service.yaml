@@ -1,0 +1,23 @@
+# WHY a Service? → A Deployment creates Pods, but Pods have random IP addresses.
+# A Service gives a STABLE endpoint to reach those pods.
+# Without this, you can't access your app from outside Kubernetes!
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: food-delivery-service
+
+spec:
+  # WHY selector? → This Service routes traffic to Pods with label app=food-delivery
+  selector:
+    app: food-delivery
+
+  ports:
+    - protocol: TCP
+      port: 80          # Port that the Service exposes externally
+      targetPort: 8080  # Port inside the container (must match containerPort above)
+
+  # WHY LoadBalancer? → Creates an external IP address (used in cloud like AWS/GCP/Azure)
+  # For local testing use: NodePort
+  type: LoadBalancer

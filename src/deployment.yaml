@@ -1,0 +1,45 @@
+# WHY apiVersion apps/v1? → Specifies which Kubernetes API version handles Deployments
+apiVersion: apps/v1
+
+# WHY kind: Deployment? → Tells K8s this file describes a Deployment (not a Service, Pod, etc.)
+kind: Deployment
+
+metadata:
+  name: food-delivery-deployment  # Name of this deployment
+
+spec:
+  # WHY replicas: 3? → Run 3 copies of our container for high availability.
+  # If one crashes, 2 others still serve requests.
+  replicas: 3
+
+  # WHY selector? → Links this Deployment to the Pods it manages.
+  # Must match the labels in the Pod template below.
+  selector:
+    matchLabels:
+      app: food-delivery
+
+  template:
+    metadata:
+      labels:
+        app: food-delivery  # Label that selector above matches
+
+    spec:
+      containers:
+        - name: food-delivery-container
+          # WHY this image path? → K8s pulls the image from Docker Hub
+          image: yourdockerhubuser/food-delivery:latest
+
+          # WHY imagePullPolicy: Always? → Always download the latest image on each deploy
+          imagePullPolicy: Always
+
+          ports:
+            - containerPort: 8080  # Port inside the container
+
+          # WHY resources? → Prevents one pod from consuming all server resources
+          resources:
+            requests:
+              memory: "256Mi"   # Minimum memory guaranteed
+              cpu: "250m"       # 250 millicores = 0.25 CPU core
+            limits:
+              memory: "512Mi"   # Maximum memory allowed
+              cpu: "500m"       # Maximum CPU allowed
