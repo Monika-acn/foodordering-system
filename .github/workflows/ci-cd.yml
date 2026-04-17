@@ -46,7 +46,7 @@ jobs:
 
       # STEP 5: Build the Docker image using your Dockerfile
       - name: Build Docker Image
-        run: docker build -t yourdockerhubusername/food-delivery:latest .
+        run: docker build -t monikaraju/food-delivery:latest .
         # -t → tag/name for the image
         # .  → look for Dockerfile in current directory
 
