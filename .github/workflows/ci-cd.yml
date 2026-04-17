@@ -61,6 +61,6 @@ jobs:
 
       # STEP 7: Push the Docker image to Docker Hub
       - name: Push to Docker Hub
-        run: docker push yourdockerhubusername/food-delivery:latest
+        run: docker push monikaraju/food-delivery:latest
         # After this, your image is live on hub.docker.com
         # Kubernetes will pull it from here during deployment
